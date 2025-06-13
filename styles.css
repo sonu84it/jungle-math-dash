@@ -31,13 +31,27 @@ body {
   position: relative;
   height: 40%;
   margin: 10px 0;
-  background: repeating-linear-gradient(
-    to right,
-    #8b5a2b,
-    #8b5a2b 20px,
-    #cd853f 20px,
-    #cd853f 40px
-  );
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Crect width='40' height='40' fill='%23cd853f'/%3E%3Cpath d='M0 20 H40' stroke='%238b5a2b' stroke-width='8'/%3E%3C/svg%3E");
+  background-size: 40px 40px;
+  background-repeat: repeat-x;
+}
+
+.bridge-label {
+  position: absolute;
+  top: 5px;
+  font-size: 0.9em;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+#start-label {
+  left: 5px;
+}
+
+#finish-label {
+  right: 5px;
 }
 
 .monkey {
