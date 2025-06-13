@@ -3,6 +3,10 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #d0f4de; /* soft jungle green */
+  /* simple tree pattern for a forest look */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect x='34' y='50' width='12' height='30' fill='%238B4513'/%3E%3Ccircle cx='40' cy='40' r='30' fill='%23519C3F'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 80px 80px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,10 +33,10 @@ body {
 
 #bridge {
   position: relative;
-  height: 40%;
+  height: 60px; /* slimmer so the monkey stands close to planks */
   margin: 10px 0;
 
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23c19a6b'/%3E%3Cpath d='M0 8 H80 M0 32 H80' stroke='%236b4423' stroke-width='6'/%3E%3Cpath d='M20 0 V40 M40 0 V40 M60 0 V40' stroke='%238b5a2b' stroke-width='2'/%3E%3C/svg%3E");
+  bottom: 20px; /* place monkey on top of planks */
   background-size: 80px 40px;
   background-repeat: repeat-x;
 }
