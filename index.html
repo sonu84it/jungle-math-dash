@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jungle Math Dash</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="game" class="game-container">
+    <h1>JUNGLE MATH DASH</h1>
+    <div id="info">
+      Time: <span id="timer">60</span> s |
+      Score: <span id="score">0</span>
+    </div>
+    <div id="bridge">
+      <div id="start-label" class="bridge-label">🐵 Start</div>
+      <div id="finish-label" class="bridge-label">Finish 🐵</div>
+      <div id="monkey" class="monkey">🐵</div>
+    </div>
+    <div id="question">Loading...</div>
+    <div id="answers" class="answers"></div>
+  </div>
+
+  <!-- Modal for end game messages -->
+  <div id="modal" class="modal hidden">
+    <div id="modal-message"></div>
+    <button id="restart">Play Again</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
