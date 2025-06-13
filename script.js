@@ -5,6 +5,7 @@ const timerEl = document.getElementById('timer');
 const questionEl = document.getElementById('question');
 const answersEl = document.getElementById('answers');
 const monkeyEl = document.getElementById('monkey');
+const bridgeEl = document.getElementById('bridge');
 const modal = document.getElementById('modal');
 const modalMessage = document.getElementById('modal-message');
 const restartBtn = document.getElementById('restart');
@@ -13,15 +14,22 @@ const scoreEl = document.getElementById('score');
 // Game state
 let timeLeft = 60; // seconds
 const startPos = 0;
-const finalPos = 10; // end plank position
+
+let finalPos = 0; // will be calculated based on bridge width
 let plank = startPos; // monkey position
-const maxPlank = finalPos; // alias for clarity
 let countdownInterval;
 let score = 0; // total correct answers
+const plankWidth = 20; // pixels per plank
+
 
 // Simple sound using Web Audio API
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
+
+// Determine how many planks fit across the bridge
+function calculateFinalPos() {
+  finalPos = Math.floor((bridgeEl.clientWidth - plankWidth) / plankWidth);
+}
 
 function playTone(frequency) {
   const oscillator = audioCtx.createOscillator();
@@ -91,7 +99,7 @@ function newQuestion() {
 // Handle answer click
 function handleAnswer(correct) {
   if (correct) {
-    plank = Math.min(plank + 1, maxPlank);
+    plank = Math.min(plank + 1, finalPos);
     score++;
     scoreEl.textContent = score;
     playTone(600); // correct sound
@@ -106,7 +114,7 @@ function handleAnswer(correct) {
 
 // Move monkey sprite along the bridge
 function moveMonkey() {
-  const pixels = plank * 20; // 20px per plank
+  const pixels = plank * plankWidth; // move based on plank width
   monkeyEl.style.transform = `translateX(${pixels}px)`;
 }
 
@@ -143,12 +151,17 @@ function restart() {
   score = 0;
   scoreEl.textContent = score;
   timerEl.textContent = timeLeft;
+  calculateFinalPos();
   moveMonkey();
   newQuestion();
   startTimer();
 }
 
 restartBtn.addEventListener('click', restart);
+window.addEventListener('resize', () => {
+  calculateFinalPos();
+  moveMonkey();
+});
 
 // Start on page load
 window.addEventListener('load', restart);
