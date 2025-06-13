@@ -1,0 +1,101 @@
+/* Jungle Math Dash Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #d0f4de; /* soft jungle green */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.game-container {
+  width: 90vmin;
+  max-width: 600px; /* 3:2 ratio with height via aspect */
+  aspect-ratio: 3 / 2;
+  background-color: #f5f5f5;
+  border: 3px solid #4a752c;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  position: relative;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#info {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+#bridge {
+  position: relative;
+  height: 40%;
+  margin: 10px 0;
+  background: repeating-linear-gradient(
+    to right,
+    #8b5a2b,
+    #8b5a2b 20px,
+    #cd853f 20px,
+    #cd853f 40px
+  );
+}
+
+.monkey {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  font-size: 2em;
+  transition: transform 0.2s ease-out;
+}
+
+#question {
+  font-size: 1.5em;
+  margin: 10px 0;
+}
+
+.answers button {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 1.2em;
+  cursor: pointer;
+  background-color: #68b684; /* jungle green */
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  transition: transform 0.2s;
+}
+
+.answers button:hover {
+  transform: scale(1.05);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal #modal-message {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  font-size: 1.5em;
+  color: #000;
+  text-align: center;
+}
+
+#restart {
+  margin-top: 10px;
+  padding: 8px 16px;
+  font-size: 1em;
+}
