@@ -14,11 +14,13 @@ const scoreEl = document.getElementById('score');
 // Game state
 let timeLeft = 60; // seconds
 const startPos = 0;
+
 let finalPos = 0; // will be calculated based on bridge width
 let plank = startPos; // monkey position
 let countdownInterval;
 let score = 0; // total correct answers
 const plankWidth = 20; // pixels per plank
+
 
 // Simple sound using Web Audio API
 const AudioContext = window.AudioContext || window.webkitAudioContext;
