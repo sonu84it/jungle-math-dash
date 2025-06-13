@@ -8,12 +8,16 @@ const monkeyEl = document.getElementById('monkey');
 const modal = document.getElementById('modal');
 const modalMessage = document.getElementById('modal-message');
 const restartBtn = document.getElementById('restart');
+const scoreEl = document.getElementById('score');
 
 // Game state
 let timeLeft = 60; // seconds
-let plank = 0; // monkey position
-const maxPlank = 10; // number of planks across bridge
+const startPos = 0;
+const finalPos = 10; // end plank position
+let plank = startPos; // monkey position
+const maxPlank = finalPos; // alias for clarity
 let countdownInterval;
+let score = 0; // total correct answers
 
 // Simple sound using Web Audio API
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -34,19 +38,42 @@ function playTone(frequency) {
 
 // Generate a new math question
 function newQuestion() {
-  const a = Math.floor(Math.random() * 21); // 0-20
-  const b = Math.floor(Math.random() * 21);
-  const add = Math.random() < 0.5; // decide addition or subtraction
-  const correct = add ? a + b : a - b;
-  const op = add ? '+' : '-';
+  // Difficulty increases as monkey advances across the bridge
+  const level = Math.min(10, plank + 1); // 1-10 scale
+  let a, b, correct, op;
+
+  // Choose operation based on level
+  const ops = level < 3 ? ['+'] : level < 5 ? ['+', '-'] : level < 7 ? ['+', '-', '*'] : ['+', '-', '*', '/'];
+  op = ops[Math.floor(Math.random() * ops.length)];
+
+  // Set number ranges by level
+  const max = level * 5;
+
+  if (op === '+') {
+    a = Math.floor(Math.random() * (max + 1));
+    b = Math.floor(Math.random() * (max + 1));
+    correct = a + b;
+  } else if (op === '-') {
+    a = Math.floor(Math.random() * (max + 1));
+    b = Math.floor(Math.random() * (a + 1)); // ensure positive result
+    correct = a - b;
+  } else if (op === '*') {
+    a = Math.floor(Math.random() * (level + 1));
+    b = Math.floor(Math.random() * (level + 1));
+    correct = a * b;
+  } else {
+    b = Math.floor(Math.random() * level) + 1; // avoid 0
+    correct = Math.floor(Math.random() * level) + 1;
+    a = b * correct; // ensure integer division
+  }
 
   questionEl.textContent = `${a} ${op} ${b} = ?`;
 
   // Build answers
   const options = new Set([correct]);
   while (options.size < 3) {
-    const distractor = correct + Math.floor(Math.random() * 11) - 5; // +/-5 range
-    options.add(distractor);
+    const delta = Math.floor(Math.random() * 7) - 3; // close to correct answer
+    options.add(correct + delta);
   }
   // Shuffle
   const arr = Array.from(options);
@@ -65,6 +92,8 @@ function newQuestion() {
 function handleAnswer(correct) {
   if (correct) {
     plank = Math.min(plank + 1, maxPlank);
+    score++;
+    scoreEl.textContent = score;
     playTone(600); // correct sound
   } else {
     plank = Math.max(plank - 1, 0);
@@ -94,7 +123,7 @@ function startTimer() {
 
 // Check if monkey reached end
 function checkWin() {
-  if (plank >= maxPlank) {
+  if (plank >= finalPos) {
     endGame(true);
   }
 }
@@ -103,14 +132,16 @@ function checkWin() {
 function endGame(win) {
   clearInterval(countdownInterval);
   modal.classList.remove('hidden');
-  modalMessage.textContent = win ? 'You Win!' : 'Try Again!';
+  modalMessage.textContent = (win ? 'You Win! ' : 'Try Again! ') + `Score: ${score}`;
 }
 
 // Restart the game
 function restart() {
   modal.classList.add('hidden');
   timeLeft = 60;
-  plank = 0;
+  plank = startPos;
+  score = 0;
+  scoreEl.textContent = score;
   timerEl.textContent = timeLeft;
   moveMonkey();
   newQuestion();
